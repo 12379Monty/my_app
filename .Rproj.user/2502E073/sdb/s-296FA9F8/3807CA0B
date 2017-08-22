@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "\n# Prelims\nlibrary(DESeq2)\n\n#load(\"../data.rda\")\ndds <- makeExampleDESeqDataSet()\ndds <- DESeq(dds)\nres <- results(dds)\nymax <- 5\n\n# this object will be used to locate points from click events.\ndata <- with(res, cbind(log10(baseMean), log2FoldChange))\ndata[,2] <- pmin(ymax, pmax(-ymax, data[,2]))\nscale <- c(diff(range(data[,1])), 2*ymax)\nt.data.scaled <- t(data)/scale\n\n# this object will be used to locate points from click events.\ndata <- with(res, cbind(log10(baseMean), log2FoldChange))\ndata[,2] <- pmin(ymax, pmax(-ymax, data[,2]))\nscale <- c(diff(range(data[,1])), 2*ymax)\nt.data.scaled <- t(data)/scale\n\nshinyServer(function(input, output) {\n  \n  current = reactiveValues(idx = NULL)\n  \n  observe({\n    xy = c(input$plotma_click$x, input$plotma_click$y)\n    if (!is.null(xy)) {\n      xy[1] <- log10(xy[1])\n      ## find index of the closest point\n      sqdists <- colMeans( (t.data.scaled - xy/scale )^2 )\n      current$idx <- which.min(sqdists)\n    }\n  })\n  \n  # MA-plot\n  output$plotma <- renderPlot({\n    par( mar=c(5,5,3,2), cex.main=1.5, cex.lab=1.35 )\n    plotMA( res, ylim=c(-ymax, ymax), alpha=input$alpha,cex=1 )\n    # add a circle around the selected point\n    title(paste('alpha =', input$alpha))\n    idx = current$idx\n    if (!is.null(idx)) points( 10^data[idx,1], data[idx,2], col=\"dodgerblue\", cex=3, lwd=3 )\n  })\n  \n  # counts plot for the selected gene\n  output$plotcounts <- renderPlot({\n    par( mar=c(5,5,3,2), cex.main=1.5, cex.lab=1.35 )\n    # update only when idx changes\n    idx = current$idx\n    if (!is.null(idx)) plotCounts( dds, idx)  ###, intgroup=c(\"dex\") )\n  })\n  \n})\n\n",
+    "created" : 1503407568689.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1931120707",
+    "id" : "3807CA0B",
+    "lastKnownWriteTime" : 1503410267,
+    "last_content_update" : 1503410267888,
+    "path" : "~/Dropbox/Courses/CSAMA2015-master/Shiny/my_app/server.R",
+    "project_path" : "server.R",
+    "properties" : {
+        "marks" : "<:15,-1\n>:15,0\na:0,0"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

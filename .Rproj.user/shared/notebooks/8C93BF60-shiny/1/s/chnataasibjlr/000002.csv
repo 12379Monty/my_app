@@ -1,0 +1,7 @@
+"0","library(DESeq2)"
+"0","#load(""../data.rda"")"
+"0","dds <- makeExampleDESeqDataSet()"
+"0","dds <- DESeq(dds)"
+"0","res <- results(dds)"
+"0","ymax <- 5"
+"0","plotMA( res, ylim=c(-ymax, ymax) )"

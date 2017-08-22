@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "# ui.R\n\n# ui.R\n\nsize = 450\n\nshinyUI(fluidPage(\n  # 1.\n  titlePanel(\"MA plot explorer\"),\n  # 2.\n  splitLayout(cellWidths=size,\n              plotOutput(\"plotma\", click=\"plotma_click\", width=size, height=size),\n              plotOutput(\"plotcounts\", width=size, height=size)\n  ),\n  # 3.\n  splitLayout(cellWidths=size,\n              sliderInput(\"alpha\", \"Adjusted p-value treshold\",\n                          min=0, max=0.5, value=0.1, step=0.001, width=size)\n  )\n  #END\n))\n",
+    "created" : 1503407332427.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4194721550",
+    "id" : "8381DCA3",
+    "lastKnownWriteTime" : 1503410009,
+    "last_content_update" : 1503410009337,
+    "path" : "~/Dropbox/Courses/CSAMA2015-master/Shiny/my_app/ui.R",
+    "project_path" : "ui.R",
+    "properties" : {
+        "marks" : "<:10,0\n>:10,0"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
